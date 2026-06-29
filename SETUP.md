@@ -1,7 +1,7 @@
 # Setup & local development
 
 ## Requirements
-- **Node ≥ 22.5** (for built-in `node:sqlite` with FTS5). No other dependencies — no pip,
+- **Node ≥ 24** (for built-in `node:sqlite` with FTS5 compiled in). No other dependencies — no pip,
   no npm install, no SDK.
 
 ## Try it without publishing (local dev)

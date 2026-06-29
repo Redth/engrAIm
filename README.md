@@ -23,7 +23,7 @@ deeply over time. Identifiers use lowercase `engraim`.*
   daemon, no cloud. Semantic recall is an *optional* add-on (see below).
 
 ## Requirements
-- **Node ≥ 22.5** (for built-in `node:sqlite` with FTS5). `node --version`. Nothing else required.
+- **Node ≥ 24** (for built-in `node:sqlite` with FTS5 compiled in). `node --version`. Nothing else required.
 
 ## Install
 ```bash

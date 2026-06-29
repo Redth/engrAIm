@@ -1,5 +1,5 @@
 // EngrAIm storage core — pure Node, ZERO dependencies.
-// Uses the built-in node:sqlite module (Node >= 22.5) with FTS5. No npm install.
+// Uses the built-in node:sqlite module (Node >= 24, FTS5 compiled in) with FTS5. No npm install.
 //
 // Single place that touches the workspace DB, shared by the MCP server
 // (engraim_server.mjs) and the hook adapter (cli.mjs).
