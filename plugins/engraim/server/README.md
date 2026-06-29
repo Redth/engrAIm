@@ -1,6 +1,6 @@
 # EngrAIm memory server
 
-Pure Node, **zero dependencies** — nothing to `npm install`. Needs only Node >= 22.13
+Pure Node, **zero dependencies** — nothing to `npm install`. Needs only Node >= 22.16
 (for the built-in `node:sqlite` module, which ships SQLite with FTS5).
 
 - `store.mjs` — storage core (sqlite + FTS5 via `node:sqlite`). Shared by hooks and server.
