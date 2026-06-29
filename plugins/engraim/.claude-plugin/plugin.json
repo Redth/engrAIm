@@ -1,0 +1,10 @@
+{
+  "name": "engraim",
+  "version": "0.5.0",
+  "description": "Self-improving, temporal workspace memory for Claude Code. Captures sessions, builds a wikilinked knowledge base + bitemporal fact store, recalls on demand, and lets a workspace grow its own skills. Markdown is canonical; SQLite is a derived index. Pure Node, zero required dependencies.",
+  "author": { "name": "redth", "url": "https://github.com/redth" },
+  "homepage": "https://github.com/redth/engrAIm",
+  "repository": "https://github.com/redth/engrAIm",
+  "license": "MIT",
+  "keywords": ["memory", "knowledge-graph", "wiki", "temporal", "mcp", "self-improving"]
+}

@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "engraim-memory": {
+      "command": "node",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/server/engraim_server.mjs"],
+      "env": { "NODE_NO_WARNINGS": "1" }
+    }
+  }
+}

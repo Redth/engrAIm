@@ -1,0 +1,9 @@
+# EngrAIm plugin repo — keep generated + optional-dependency artifacts out of git.
+node_modules/
+# workspace artifacts should never appear in the plugin repo itself, but guard anyway:
+.engraim/
+**/store.db
+**/.engraim/vendor/
+# OS / editor noise
+.DS_Store
+*.log
