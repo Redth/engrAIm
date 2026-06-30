@@ -1,0 +1,48 @@
+name: Release
+# Tag + GitHub Release when a merge to main carries a new plugin version.
+# The version bump itself happens in the PR (scripts/bump-version.mjs); this workflow only
+# reacts to it. Idempotent: merges that didn't bump the version find the tag already exists
+# and no-op, so it's safe to run on every push to main.
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Resolve version
+        id: v
+        run: |
+          VERSION=$(node -p "require('./plugins/engraim/.claude-plugin/plugin.json').version")
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          if git rev-parse "v$VERSION" >/dev/null 2>&1; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Guard — version sources agree
+        if: steps.v.outputs.exists == 'false'
+        run: node scripts/selftest.mjs
+
+      - name: Tag + release
+        if: steps.v.outputs.exists == 'false'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ steps.v.outputs.version }}
+        run: |
+          node scripts/changelog-notes.mjs "$VERSION" > /tmp/notes.md || echo "Release v$VERSION" > /tmp/notes.md
+          git tag "v$VERSION"
+          git push origin "v$VERSION"
+          gh release create "v$VERSION" --title "v$VERSION" --notes-file /tmp/notes.md
