@@ -3,7 +3,7 @@
 All notable changes to EngrAIm. Versions track the plugin (`plugin.json`); the workspace
 schema version is separate (currently 5) and migrates additively + self-heals on open.
 
-## Unreleased
+## 0.6.0
 - **Proactive upkeep nudges** — so the self-improvement loop never depends on the user
   remembering the commands. Two new hooks plus a richer SessionStart:
   - **UserPromptSubmit** (`user_prompt.sh` → `cli user-prompt`): deterministic phrase
@@ -17,6 +17,11 @@ schema version is separate (currently 5) and migrates additively + self-heals on
     overrides, promotion candidates, ≥6 staged sessions) accumulate.
   - All nudges are model-gated (the hook detects; the model decides whether to act) and
     covered by the self-test.
+- **Release tooling** — `scripts/bump-version.mjs <version|major|minor|patch>` keeps the two
+  release-version sources (`marketplace.json`, `plugin.json`) in lockstep and flips the
+  `## Unreleased` CHANGELOG heading. The self-test now guards that the two versions agree.
+  A `Release` workflow tags + publishes a GitHub Release on merge to `main` when the version
+  changed (idempotent — ordinary merges no-op). The workspace schema version is untouched.
 
 ## 0.5.0
 - **Wiki-gap lint** — scan the knowledge graph for dangling `[[links]]`, stubs, orphans, and
