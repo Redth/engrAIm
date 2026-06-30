@@ -5,7 +5,7 @@
     {
       "name": "engraim",
       "source": "./plugins/engraim",
-      "version": "0.5.0",
+      "version": "0.6.0",
       "description": "Captures your Claude Code sessions, distills them into a [[wikilinked]] knowledge base + temporal fact store, and recalls them later. Markdown-canonical, SQLite-indexed, no server. Pure Node, zero required deps.",
       "author": { "name": "redth", "url": "https://github.com/redth" },
       "license": "MIT",

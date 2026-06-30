@@ -103,5 +103,14 @@ const ok = (label, cond, extra = '') => {
   child.stdin.end();
 }
 
+// ---- 4) release hygiene: the two version sources must agree -----------------
+{
+  const read = p => JSON.parse(fs.readFileSync(path.join(here, '..', p), 'utf8'));
+  const mkt = read('.claude-plugin/marketplace.json').plugins[0].version;
+  const plg = read('plugins/engraim/.claude-plugin/plugin.json').version;
+  ok('marketplace.json and plugin.json versions match', mkt === plg, `${mkt} vs ${plg}`);
+  ok('version is semver x.y.z', /^\d+\.\d+\.\d+$/.test(plg), plg);
+}
+
 console.log(`\n${failures === 0 ? 'ALL PASS' : failures + ' FAILURE(S)'}`);
 process.exit(failures === 0 ? 0 : 1);
