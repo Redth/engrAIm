@@ -19,6 +19,12 @@ workspace get easier to work in over time.
 - They push back or express frustration — the underlying preference is the override.
 - A `verdict:` you left on prior work comes back negative — turn the lesson into a rule.
 
+A UserPromptSubmit hook already watches for durable, project-wide phrasing ("from now on",
+"always remember", "we should do it like this", "in this project …") and injects a
+`[EngrAIm]` nudge when it fires. Treat that nudge as a prompt to act here — but apply your
+own judgment: capture it only if it's a *standing* rule for the workspace, not a one-off for
+the current task. The hook detects; you decide.
+
 ## How
 - Phrase it as a short **imperative rule**: "run tests before committing", "prefer pnpm",
   "keep answers terse, no preamble". Add a `scope` tag (git, testing, tone, …) when domain-specific.

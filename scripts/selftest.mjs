@@ -65,6 +65,23 @@ const ok = (label, cond, extra = '') => {
   ok('SessionStart emits onboarding nudge', /engraim:onboard/.test(ctx));
   await run(['stage-session'], JSON.stringify({ cwd: proj, session_id: 's1', transcript_path: '/tmp/none.jsonl' }));
   ok('Stop hook stages a session', fs.existsSync(path.join(proj, '.engraim', 'pending', 'sessions.jsonl')));
+
+  // proactive nudges -------------------------------------------------------
+  const fb = await run(['user-prompt'], JSON.stringify({ cwd: proj, prompt: 'From now on always run the tests before committing' }));
+  ok('UserPromptSubmit nudges calibrate on durable feedback', /engraim:calibrate|calibrate\(/.test(fb));
+  const quiet = await run(['user-prompt'], JSON.stringify({ cwd: proj, prompt: 'what does this function do?' }));
+  ok('UserPromptSubmit stays silent on a plain question', quiet.trim() === '');
+  // back up the curation queue, then a calibration should cross-nudge toward curate.
+  for (const i of [2, 3]) await run(['stage-session'], JSON.stringify({ cwd: proj, session_id: 's' + i, transcript_path: '/tmp/none.jsonl' }));
+  const pt = await run(['post-tool'], JSON.stringify({ cwd: proj, tool_name: 'mcp__engraim__calibrate' }));
+  ok('PostToolUse(calibrate) cross-nudges curate when sessions pile up', /engraim:curate/.test(pt));
+  const ds = await run(['post-tool'], JSON.stringify({ cwd: proj, tool_name: 'mcp__engraim__draft_skill' }));
+  ok('PostToolUse(draft_skill) nudges promote-skill', /engraim:promote-skill/.test(ds));
+  // onboarded + enough backlog → SessionStart surfaces a retro pass.
+  new Store(path.join(proj, '.engraim')).markOnboarded();
+  for (const i of [4, 5, 6]) await run(['stage-session'], JSON.stringify({ cwd: proj, session_id: 's' + i, transcript_path: '/tmp/none.jsonl' }));
+  const ss2 = await run(['session-start', '--plugin-root', PLUGIN_ROOT], JSON.stringify({ cwd: proj }));
+  ok('SessionStart surfaces a retro pass when inputs accumulate', /engraim:retro/.test(ss2));
 }
 
 // ---- 3) MCP server: handshake + a tool round-trip (sequential client) ------

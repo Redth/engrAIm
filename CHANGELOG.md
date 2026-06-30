@@ -3,6 +3,21 @@
 All notable changes to EngrAIm. Versions track the plugin (`plugin.json`); the workspace
 schema version is separate (currently 5) and migrates additively + self-heals on open.
 
+## Unreleased
+- **Proactive upkeep nudges** — so the self-improvement loop never depends on the user
+  remembering the commands. Two new hooks plus a richer SessionStart:
+  - **UserPromptSubmit** (`user_prompt.sh` → `cli user-prompt`): deterministic phrase
+    detection surfaces a calibrate nudge on durable, project-wide feedback ("from now on",
+    "always remember", "in this project", "prefer X over Y", …), and a 6h-throttled reminder
+    of pending curate/retro/skill upkeep so long sessions don't drift.
+  - **PostToolUse** (`tool_followup.sh` → `cli post-tool`, matched on calibrate / draft_skill
+    / ingest_session / mark_onboarded): chains the natural next step — calibrate → curate +
+    promote-override, draft-skill → promote-skill, onboard → backfill, curate → retro.
+  - **SessionStart** now also surfaces a `/engraim:retro` pass once its inputs (expiring
+    overrides, promotion candidates, ≥6 staged sessions) accumulate.
+  - All nudges are model-gated (the hook detects; the model decides whether to act) and
+    covered by the self-test.
+
 ## 0.5.0
 - **Wiki-gap lint** — scan the knowledge graph for dangling `[[links]]`, stubs, orphans, and
   under-linked pages; write a prioritized research agenda to `wiki/_gaps.md` (`/engraim:lint`).

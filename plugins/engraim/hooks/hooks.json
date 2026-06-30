@@ -3,6 +3,12 @@
     "SessionStart": [
       { "hooks": [ { "type": "command", "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/session_start.sh\"" } ] }
     ],
+    "UserPromptSubmit": [
+      { "hooks": [ { "type": "command", "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/user_prompt.sh\"" } ] }
+    ],
+    "PostToolUse": [
+      { "matcher": "calibrate|draft_skill|ingest_session|mark_onboarded", "hooks": [ { "type": "command", "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/tool_followup.sh\"" } ] }
+    ],
     "Stop": [
       { "hooks": [ { "type": "command", "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/session_capture.sh\"" } ] }
     ],

@@ -43,6 +43,13 @@ That's the whole install. Open Claude Code in any project; the first session cre
 - **Self-improve.** Corrections become calibration overrides (`/engraim:calibrate`) that
   expire unless reaffirmed and can graduate to permanent rules in `frame/SOUL.md`; a guarded
   retrospective (`/engraim:retro`) consolidates and prunes.
+- **Proactive upkeep — you never have to remember the verbs.** Three hooks watch for the
+  right moment and *ask*: a UserPromptSubmit hook spots durable, project-wide feedback
+  ("from now on…", "always remember…") and nudges toward `/engraim:calibrate`, plus a
+  throttled in-session reminder of pending upkeep; a PostToolUse hook chains the natural
+  next step after a milestone action (calibrate → curate/promote, draft-skill →
+  promote-skill, onboard → backfill); and SessionStart surfaces a `/engraim:retro` pass
+  once its inputs (expiring overrides, promotion candidates, staged sessions) accumulate.
 - **Grow skills.** Recurring procedures become workspace skills via a gated ladder
   (`/engraim:draft-skill` → review → `/engraim:promote-skill` into `.claude/skills/`).
 - **Notice gaps.** `/engraim:lint` scans the wiki for dangling links / stubs / orphans and
@@ -54,7 +61,8 @@ That's the whole install. Open Claude Code in any project; the first session cre
 plugins/engraim/
   .claude-plugin/plugin.json        ← plugin manifest
   .mcp.json                         ← registers the engraim-memory MCP server (node)
-  hooks/        session_start · session_capture (Stop) · pre_compact
+  hooks/        session_start · user_prompt · tool_followup (PostToolUse) ·
+                session_capture (Stop) · pre_compact
   commands/     init · status · onboard · curate · backfill · calibrate · retro ·
                 skills · draft-skill · promote-skill · lint · enable-semantic
   skills/       engraim-memory · -research · -curate · -calibrate · -retro ·
